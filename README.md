@@ -1,5 +1,7 @@
 # Nocturne — Midnight Explorer
 
+<img src="https://raw.githubusercontent.com/longphanquangminh/minhlong-responsive-portfolio/refs/heads/master/images/nocturne-banner.png" />
+
 A privacy-first block explorer for the Midnight Network testnet.
 Built with Next.js 15 (App Router) + TypeScript, it renders live blockchain data directly from the Midnight node using the Polkadot JS API over WebSockets.
 
