@@ -17,14 +17,8 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       // Next.js & Tailwind require unsafe-inline styles for the initial render
       "style-src 'self' 'unsafe-inline'",
-      // Allow inline scripts always; allow eval in development for fast refresh
-      (() => {
-        const scriptSrcParts = ["'self'", "'unsafe-inline'"];
-        if (process.env.NODE_ENV !== "production") {
-          scriptSrcParts.push("'unsafe-eval'");
-        }
-        return `script-src ${scriptSrcParts.join(" ")}`;
-      })(),
+      // Allow WebAssembly instantiation (Polkadot API needs eval)
+      "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' 'unsafe-eval'",
       "img-src 'self' data:",
       "font-src 'self'",
       `connect-src 'self' ${connectSrcExtra.join(" ")}`.trim(),
