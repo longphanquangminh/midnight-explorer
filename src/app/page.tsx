@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const provider = getProvider();
-  
+
   // Fetch latest blocks and transactions in parallel
   const [blocks, txs] = await Promise.all([
     provider.getLatestBlocks(10),
@@ -17,25 +17,25 @@ export default async function Page() {
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold text-white mb-6">Midnight Blockchain Explorer</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Latest Blocks Card */}
         <section className="bg-gray-800/50 rounded-lg border border-gray-700 overflow-hidden">
           <div className="px-4 py-3 bg-gray-800/80 border-b border-gray-700 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-white">Latest Blocks</h2>
-            <Link 
-              href="/blocks" 
+            <Link
+              href="/blocks"
               className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
             >
               View All →
             </Link>
           </div>
-          
+
           <div className="divide-y divide-gray-700">
             {blocks.map(block => (
               <div key={block.hash} className="px-4 py-3 hover:bg-gray-700/30 transition-colors">
                 <div className="flex justify-between items-start">
-                  <Link 
+                  <Link
                     href={`/blocks/${block.height}`}
                     className="font-medium text-purple-400 hover:text-purple-300 transition-colors"
                   >
@@ -57,33 +57,33 @@ export default async function Page() {
             ))}
           </div>
         </section>
-        
+
         {/* Latest Transactions Card */}
         <section className="bg-gray-800/50 rounded-lg border border-gray-700 overflow-hidden">
           <div className="px-4 py-3 bg-gray-800/80 border-b border-gray-700 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-white">Latest Transactions</h2>
-            <Link 
-              href="/txs" 
+            <Link
+              href="/txs"
               className="text-sm text-purple-400 hover:text-purple-300 transition-colors"
             >
               View All →
             </Link>
           </div>
-          
+
           <div className="divide-y divide-gray-700">
-            {txs.map(tx => (
-              <div key={tx.hash} className="px-4 py-3 hover:bg-gray-700/30 transition-colors">
+            {txs.map((tx, index) => (
+              <div key={`${tx.hash}-${index}`} className="px-4 py-3 hover:bg-gray-700/30 transition-colors">
                 <div className="flex justify-between items-start">
-                  <Link 
+                  <Link
                     href={`/txs/${tx.hash}`}
                     className="font-medium text-purple-400 hover:text-purple-300 transition-colors truncate max-w-[200px]"
                   >
                     {tx.hash.substring(0, 16)}...
                   </Link>
                   <span className={`text-xs px-2 py-0.5 rounded ${
-                    tx.status === 'success' 
-                      ? 'bg-green-900/30 text-green-300' 
-                      : tx.status === 'failed' 
+                    tx.status === 'success'
+                      ? 'bg-green-900/30 text-green-300'
+                      : tx.status === 'failed'
                         ? 'bg-red-900/30 text-red-300'
                         : 'bg-yellow-900/30 text-yellow-300'
                   }`}>
@@ -92,7 +92,7 @@ export default async function Page() {
                 </div>
                 <div className="mt-1 flex justify-between items-center">
                   {tx.blockHeight ? (
-                    <Link 
+                    <Link
                       href={`/blocks/${tx.blockHeight}`}
                       className="text-xs text-gray-400 hover:text-gray-300"
                     >

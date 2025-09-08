@@ -18,6 +18,12 @@ export default async function BlocksPage({ searchParams }: PageProps) {
   // Fetch blocks with pagination
   const { items: blocks, nextCursor } = await provider.getBlocksPage(cursor);
 
+  // Pagination helpers ----------------------------------------------------
+  const pageSize = 20;
+  const current = cursor ? parseInt(cursor, 10) : 0;
+  const prevCursor = current - pageSize;
+  const prevHref = prevCursor > 0 ? `/blocks?cursor=${prevCursor}` : '/blocks';
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -64,15 +70,27 @@ export default async function BlocksPage({ searchParams }: PageProps) {
         </div>
       </section>
       
-      <div className="flex justify-end mt-4">
-        {nextCursor && (
-          <Link
-            href={`/blocks?cursor=${nextCursor}`}
-            className="px-4 py-2 bg-purple-800/50 hover:bg-purple-700/50 text-purple-200 rounded-md transition-colors"
-          >
-            Next Page →
-          </Link>
-        )}
+      <div className="flex justify-between mt-4">
+        <div>
+          {current > 0 && (
+            <Link
+              href={prevHref}
+              className="px-4 py-2 bg-gray-700/50 hover:bg-gray-600/50 text-gray-200 rounded-md transition-colors"
+            >
+              ← Previous
+            </Link>
+          )}
+        </div>
+        <div>
+          {nextCursor && (
+            <Link
+              href={`/blocks?cursor=${nextCursor}`}
+              className="px-4 py-2 bg-purple-800/50 hover:bg-purple-700/50 text-purple-200 rounded-md transition-colors"
+            >
+              Next Page →
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
